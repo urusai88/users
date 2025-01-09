@@ -65,15 +65,14 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
       ),
       body: ref.watch(usersProvider).when(
             data: (users) {
+              int compareStrings(String a, String b) =>
+                  a.toLowerCase().compareTo(b.toLowerCase());
+
               users = switch (_ordering) {
-                _UserNameOrdering.asc => users.sorted(
-                    (a, b) =>
-                        a.name.toLowerCase().compareTo(b.name.toLowerCase()),
-                  ),
-                _UserNameOrdering.desc => users.sorted(
-                    (a, b) =>
-                        b.name.toLowerCase().compareTo(a.name.toLowerCase()),
-                  ),
+                _UserNameOrdering.asc =>
+                  users.sorted((a, b) => compareStrings(a.name, b.name)),
+                _UserNameOrdering.desc =>
+                  users.sorted((a, b) => compareStrings(b.name, a.name)),
                 _UserNameOrdering.none => users,
               };
 
