@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:users/main.dart';
+import 'package:users/src/presentation/notifiers/brightness.dart';
 
 import '../../../domain.dart';
 import '../../../presentation.dart';
@@ -58,7 +59,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
             ),
           ),
           IconButton(
-            onPressed: () => MyApp.of(context).toggleBrightness(),
+            onPressed: () => ref.read(brightnessProvider.notifier).toggle(),
             icon: Icon(Icons.brightness_2),
           ),
         ],

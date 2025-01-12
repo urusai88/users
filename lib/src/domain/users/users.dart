@@ -13,7 +13,7 @@ Future<List<User>> users(Ref ref) async {
   try {
     return await ref.read(usersHttpApiProvider).users().unwrap();
   } on DioException catch (_) {
-    throw 'Connection error';
+    throw MessageException('Connection error');
   }
 }
 
@@ -22,6 +22,6 @@ Future<User> user(Ref ref, int id) async {
   try {
     return await ref.read(usersHttpApiProvider).user(id).unwrap();
   } on DioException catch (_) {
-    throw 'Connection error';
+    throw MessageException('Connection error');
   }
 }

@@ -37,32 +37,15 @@ final _router = GoRouter(
   ],
 );
 
-class MyApp extends StatefulWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => MyAppState();
-
-  static MyAppState of(BuildContext context) =>
-      context.findAncestorStateOfType<MyAppState>()!;
-}
-
-class MyAppState extends State<MyApp> {
-  var _brightness = Brightness.light;
-
-  void toggleBrightness() {
-    setState(
-      () => _brightness =
-          _brightness == Brightness.light ? Brightness.dark : Brightness.light,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       title: 'Users Demo',
       theme: ThemeData(
-        brightness: _brightness,
+        brightness: ref.watch(brightnessProvider),
       ),
       routerConfig: _router,
     );
