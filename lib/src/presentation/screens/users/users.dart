@@ -2,13 +2,28 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../domain.dart';
 import '../../../presentation.dart';
 
 part 'users.g.dart';
 
-enum _UserNameOrdering { asc, desc, none }
+enum UserNameOrder { asc, desc, none }
+
+@Riverpod(keepAlive: true)
+class UserNameOrdering extends _$UserNameOrdering {
+  @override
+  UserNameOrder build() => UserNameOrder.none;
+
+  void next() {
+    state = switch (state) {
+      UserNameOrder.asc => UserNameOrder.desc,
+      UserNameOrder.desc => UserNameOrder.none,
+      UserNameOrder.none => UserNameOrder.asc,
+    };
+  }
+}
 
 @TypedGoRoute<UsersRoute>(path: '/users')
 class UsersRoute extends GoRouteData {
@@ -19,40 +34,22 @@ class UsersRoute extends GoRouteData {
       const UsersScreen();
 }
 
-class UsersScreen extends ConsumerStatefulWidget {
+class UsersScreen extends ConsumerWidget {
   const UsersScreen({super.key});
 
   @override
-  ConsumerState<UsersScreen> createState() => _UsersScreenState();
-}
-
-class _UsersScreenState extends ConsumerState<UsersScreen> {
-  var _ordering = _UserNameOrdering.none;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {
-              setState(() {
-                switch (_ordering) {
-                  case _UserNameOrdering.asc:
-                    _ordering = _UserNameOrdering.desc;
-                  case _UserNameOrdering.desc:
-                    _ordering = _UserNameOrdering.none;
-                  case _UserNameOrdering.none:
-                    _ordering = _UserNameOrdering.asc;
-                }
-              });
-            },
+            onPressed: () => ref.read(userNameOrderingProvider.notifier).next(),
             icon: Icon(
               Icons.sort_by_alpha,
-              color: switch (_ordering) {
-                _UserNameOrdering.asc => Colors.green,
-                _UserNameOrdering.desc => Colors.red,
-                _UserNameOrdering.none => null,
+              color: switch (ref.watch(userNameOrderingProvider)) {
+                UserNameOrder.asc => Colors.green,
+                UserNameOrder.desc => Colors.red,
+                UserNameOrder.none => null,
               },
             ),
           ),
@@ -67,12 +64,12 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               int compareStrings(String a, String b) =>
                   a.toLowerCase().compareTo(b.toLowerCase());
 
-              users = switch (_ordering) {
-                _UserNameOrdering.asc =>
+              users = switch (ref.watch(userNameOrderingProvider)) {
+                UserNameOrder.asc =>
                   users.sorted((a, b) => compareStrings(a.name, b.name)),
-                _UserNameOrdering.desc =>
+                UserNameOrder.desc =>
                   users.sorted((a, b) => compareStrings(b.name, a.name)),
-                _UserNameOrdering.none => users,
+                UserNameOrder.none => users,
               };
 
               return RefreshIndicator(
