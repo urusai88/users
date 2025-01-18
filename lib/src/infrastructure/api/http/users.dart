@@ -10,16 +10,18 @@ part 'users.g.dart';
 @riverpod
 UsersHttpApi usersHttpApi(Ref ref) => UsersHttpApi(tio: ref.read(tioProvider));
 
-class UsersHttpApi {
+class UsersHttpApi implements UsersApi {
   const UsersHttpApi({
     required this.tio,
   });
 
   final Tio<void> tio;
 
+  @override
   Future<TioResponse<List<User>, void>> users() =>
       tio.get<User>('/users').many();
 
+  @override
   Future<TioResponse<User, void>> user(int id) =>
       tio.get<User>('/users/$id').one();
 }

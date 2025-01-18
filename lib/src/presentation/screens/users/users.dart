@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../domain.dart';
@@ -23,15 +22,6 @@ class UserNameOrdering extends _$UserNameOrdering {
       UserNameOrder.none => UserNameOrder.asc,
     };
   }
-}
-
-@TypedGoRoute<UsersRoute>(path: '/users')
-class UsersRoute extends GoRouteData {
-  const UsersRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const UsersScreen();
 }
 
 class UsersScreen extends ConsumerWidget {

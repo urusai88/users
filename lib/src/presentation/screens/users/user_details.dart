@@ -5,21 +5,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../domain.dart';
 
-part 'user_details.g.dart';
-
-@TypedGoRoute<UserDetailsRoute>(path: '/users/:id')
-class UserDetailsRoute extends GoRouteData {
-  const UserDetailsRoute({
-    required this.id,
-  });
-
-  final int id;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      UserDetailsScreen(id: id);
-}
-
 class UserDetailsScreen extends ConsumerWidget {
   const UserDetailsScreen({
     super.key,
@@ -32,9 +17,9 @@ class UserDetailsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: ref.watch(userProvider(id)).whenOrNull(
-              data: (user) => Text('User #$id'),
-            ),
+        title: ref
+            .watch(userProvider(id))
+            .whenOrNull(data: (user) => Text('User #$id')),
       ),
       body: ref.watch(userProvider(id)).when(
             data: (user) {

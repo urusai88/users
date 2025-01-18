@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_details.dart';
+part of 'routing.dart';
 
 // **************************************************************************
 // GoRouterGenerator
@@ -8,6 +8,7 @@ part of 'user_details.dart';
 
 List<RouteBase> get $appRoutes => [
       $userDetailsRoute,
+      $usersRoute,
     ];
 
 RouteBase get $userDetailsRoute => GoRouteData.$route(
@@ -22,6 +23,28 @@ extension $UserDetailsRouteExtension on UserDetailsRoute {
 
   String get location => GoRouteData.$location(
         '/users/${Uri.encodeComponent(id.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $usersRoute => GoRouteData.$route(
+      path: '/users',
+      factory: $UsersRouteExtension._fromState,
+    );
+
+extension $UsersRouteExtension on UsersRoute {
+  static UsersRoute _fromState(GoRouterState state) => const UsersRoute();
+
+  String get location => GoRouteData.$location(
+        '/users',
       );
 
   void go(BuildContext context) => context.go(location);
