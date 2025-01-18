@@ -12,12 +12,13 @@ class MyError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String message = switch (error) {
-      final DioException dioException => 'Internet connection error',
+      final DioException dioException => 'Connection error',
+      final Error error => 'Unknown error',
       _ => '$error',
     };
 
     return Center(
-      child: Text('Error: $error'),
+      child: Text('Error: $message'),
     );
   }
 }

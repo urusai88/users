@@ -83,9 +83,7 @@ class UsersScreen extends ConsumerWidget {
               child: CustomScrollView(
                 slivers: [
                   SliverFillRemaining(
-                    child: Center(
-                      child: Text('Error: $error'),
-                    ),
+                    child: MyError(error: error),
                   )
                 ],
               ),
